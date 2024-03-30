@@ -1,31 +1,42 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [Header("References")] [SerializeField]
+    [Header("References")][SerializeField]
     private GameObject[] enemyPrefabs;
-    
-    [Header("Attributes")] [SerializeField]
+
+    [Header("Attributes")][SerializeField]
     private int baseEnemies = 8;
     [SerializeField] private float enemiesPerSecond = 0.5f;
     [SerializeField] private float timeBetweenWaves = 5f;
     [SerializeField] private float difficultyScalingFactor = 0.75f;
     [SerializeField] private float enemiesPerSecondCap = 15f;
-    
-    [Header("Events")] 
+    [SerializeField] private TextMeshProUGUI waveUI;
+
+    [Header("Events")]
     public static UnityEvent onEnemyDestroy = new UnityEvent();
     
-    private int currentWave = 1;
+    public int currentWave = 1;
     private float timeSinceLastSpawn;
     private int enemiesAlive;
     private int enemiesLeftToSpawn;
     private float eps; // enemies per second
     private bool isSpawning = false;
+    public Button spawnButton;
+
+    //private int 
+    public void ToggleEnabled()
+    {
+        StartCoroutine(StartWave());
+        spawnButton.interactable = false;
+    }
 
     private void Awake()
     {
@@ -34,7 +45,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(StartWave());
+        
     }
 
     private void Update()
@@ -93,6 +104,6 @@ public class EnemySpawner : MonoBehaviour
         isSpawning = false;
         timeSinceLastSpawn = 0f;
         currentWave++;
-        StartCoroutine(StartWave());
+        spawnButton.interactable = true;
     }
 }

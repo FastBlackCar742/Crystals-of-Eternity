@@ -11,7 +11,7 @@ public class LevelManager : MonoBehaviour
     public Transform startPoint;
 
     public int currency;
-
+    
     private void Awake()
     {
         main = this;
